@@ -1,8 +1,10 @@
 package Util;
 
+import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.*;
 
 import java.util.List;
+import java.util.TimerTask;
 
 public class Util {
     private static String embedTitle;
@@ -59,6 +61,24 @@ public class Util {
         var size = whiteListByInvite + whiteListByLevel;
 
         channel.getManager().setName("⚪・WL " + size + "/400").queue();
+    }
+
+    public static void setAmountOnline(Guild event){
+        new java.util.Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                var counter = 0;
+                var channel = event.getGuildChannelById(935215569358164028L);
+
+                for (var memb : event.getMembers()) {
+                    if (memb.getOnlineStatus() != OnlineStatus.OFFLINE) {
+                        counter++;
+                    }
+                }
+                channel.getManager().setName("\uD83D\uDC65・Online: " + counter).queue();
+            }
+        }, 10 * 1000 * 60);
+        System.out.println("Online counter has been set!");
     }
 
 }

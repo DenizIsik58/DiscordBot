@@ -48,8 +48,6 @@ public class ScholarshipCommand extends ListenerAdapter {
                     Util.setChannelName(event.getGuild());
                 }
             }
-
-
         }
 
         if (event.getMember().getIdLong() == 772846793187917865L) {
@@ -63,6 +61,11 @@ public class ScholarshipCommand extends ListenerAdapter {
         if (event.getMember().getIdLong() == 204255221017214977L) {
             return;
         }
+
+
+
+
+
 
         if (Util.hasRole(event.getMember(), "Moderator")) {
 
@@ -165,6 +168,18 @@ public class ScholarshipCommand extends ListenerAdapter {
             if (!Util.hasRole(event.getMember(), "Project Manager")) {
                 return;
             }
+            if (message.equalsIgnoreCase("?online")) {
+                new java.util.Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                       Util.setAmountOnline(event.getGuild());
+                        System.out.println("Im setting up amount online now!");
+                    }
+                }, 10 * 1000 * 60);
+
+            }
+
+
 
             if (event.getMessage().getContentRaw().equalsIgnoreCase("?removerank")) {
 
