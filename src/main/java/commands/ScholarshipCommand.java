@@ -127,6 +127,7 @@ public class ScholarshipCommand extends ListenerAdapter {
                         for (var role : roles) {
                             event.getGuild().addRoleToMember(memb, role).queue();
                         }
+                        event.getGuild().removeRoleFromMember(memb, event.getGuild().getRoleById(926953268381360178L)).queue();
                         event.getChannel().sendMessage(memb.getAsMention() + " You have been unmuted!").queue();
                     }
                 }, minutes * 1000 * 60);
