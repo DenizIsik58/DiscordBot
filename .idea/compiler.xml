@@ -6,9 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ITU_Bot" />
+        <module name="DiscordBot" />
         <module name="ITU Bot" />
         <module name="discordbot" />
+        <module name="ITU_Bot" />
       </profile>
     </annotationProcessing>
   </component>
