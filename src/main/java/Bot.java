@@ -20,7 +20,7 @@ public class Bot {
     public static void main(String[] args) throws LoginException, InterruptedException, IOException {
 
 
-        Path path = Path.of("/Users/deniz/Desktop/Uden navn.txt");
+        Path path = Path.of("bottoken.txt");
         String token = String.valueOf(Files.readAllLines(path).get(0));
 
         JDABuilder builder = JDABuilder.createDefault(token)
