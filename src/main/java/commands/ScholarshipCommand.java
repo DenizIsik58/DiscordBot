@@ -17,6 +17,7 @@ public class ScholarshipCommand extends ListenerAdapter {
     private List<Integer> numbers = new ArrayList<Integer>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
 
     private Map<Member, Integer> amountOfMutes = new HashMap<>();
+    private List<Member> mutedMembers = new ArrayList<>();
 
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
@@ -26,8 +27,17 @@ public class ScholarshipCommand extends ListenerAdapter {
 
             for (MessageEmbed messageEmbed : event.getMessage().getEmbeds()) {
                 var member = event.getGuild().getMemberByTag(messageEmbed.getTitle().replace("*", ""));
-                if (Integer.parseInt(messageEmbed.getDescription().split(" ")[3].replace("*", "")) >= 8) {
+                if (Integer.parseInt(messageEmbed.getDescription().split(" ")[3].replace("*", "")) >= 10) {
+
+
+
+                    for (var role : member.getRoles()){
+                        if (role.getIdLong() == 925558862478717058L || role.getIdLong() == 934762373129072661L){
+                            return;
+                        }
+                    }
                     event.getGuild().addRoleToMember(member, event.getGuild().getRoleById(934762373129072661L)).queue();
+                    event.getGuild().getTextChannelById(925608784380973136L).sendMessage("Congratulations " + member.getAsMention() + "! You have made it to the whitelist!").queue();
                     Util.setChannelName(event.getGuild());
                 } else {
                     event.getGuild().removeRoleFromMember(member, event.getGuild().getRoleById(934762373129072661L)).queue();
@@ -40,16 +50,51 @@ public class ScholarshipCommand extends ListenerAdapter {
 
             if (event.getMessage().getContentRaw().startsWith("GG")) {
                 System.out.println("GG: " + Integer.parseInt(event.getMessage().getContentRaw().split(" ")[7].replace("!", "")));
-                if (Integer.parseInt(event.getMessage().getContentRaw().split(" ")[7].replace("!", "")) >= 10) {
+                if (Integer.parseInt(event.getMessage().getContentRaw().split(" ")[7].replace("!", "")) == 12) {
                     System.out.println(event.getMessage().getMentionedMembers().get(0).getIdLong());
+
+
                     var member = event.getGuild().getMemberById(event.getMessage().getMentionedMembers().get(0).getIdLong());
+
+
+
+                    for (var role : member.getRoles()){
+                        if (role.getIdLong() == 934762373129072661L){
+                            event.getGuild().removeRoleFromMember(member, event.getGuild().getRoleById(934762373129072661L)).queue();
+                        }
+                    }
+
                     System.out.println(member.getEffectiveName());
                     event.getGuild().addRoleToMember(member, event.getGuild().getRoleById(925558862478717058L)).queue();
+                    event.getGuild().getTextChannelById(925608784380973136L).sendMessage("Congratulations " + member.getAsMention() + "! You have made it to the whitelist!").queue();
                     Util.setChannelName(event.getGuild());
                 }
             }
         }
 
+        for (var member : mutedMembers){
+            if (event.getMember() == member){
+                for (var role : member.getRoles()) {
+                    event.getGuild().removeRoleFromMember(member, role).queue();
+                }
+                event.getGuild().addRoleToMember(member, event.getGuild().getRoleById(926953268381360178L)).queue();
+
+            }
+        }
+/*
+        if (message.equalsIgnoreCase("?removeroles")){
+
+            for (var member : event.getGuild().getMembersWithRoles(event.getGuild().getRoleById(925558862478717058L))){
+
+                for (var role : member.getRoles()){
+                    if (role.getIdLong() == 934762373129072661L){
+                        System.out.println(member.getEffectiveName() + " has " + role.getName());
+                        event.getGuild().removeRoleFromMember(member, role).queue();
+                    }
+                }
+            }
+        }
+*/
         if (event.getMember().getIdLong() == 772846793187917865L) {
             return;
         }
@@ -120,6 +165,7 @@ public class ScholarshipCommand extends ListenerAdapter {
                     event.getGuild().removeRoleFromMember(memb, role).queue();
                 }
                 event.getGuild().addRoleToMember(memb, event.getGuild().getRoleById(926953268381360178L)).queue();
+                mutedMembers.add(memb);
 
                 new java.util.Timer().schedule(new TimerTask() {
                     @Override
@@ -129,13 +175,14 @@ public class ScholarshipCommand extends ListenerAdapter {
                         }
                         event.getGuild().removeRoleFromMember(memb, event.getGuild().getRoleById(926953268381360178L)).queue();
                         event.getChannel().sendMessage(memb.getAsMention() + " You have been unmuted!").queue();
+                        mutedMembers.remove(memb);
                     }
                 }, minutes * 1000 * 60);
 
                 Util.deleteMessage(event.getChannel(), "?mute");
                 event.getChannel().sendMessage( memb.getAsMention() + " has been muted for " + minutes + (minutes > 1 ? " minutes" : " minute") + "\n \n **Reason:**" + reason).queue();
 
-            }else if (message.toLowerCase().startsWith("?slowchat")){
+            }else if (message.toLowerCase().startsWith("?slowmode")){
                 var amount = Integer.parseInt(message.split(" ")[2]);
                 var channel = event.getGuild().getGuildChannelById(message.split(" ")[1]);
 
@@ -169,11 +216,22 @@ public class ScholarshipCommand extends ListenerAdapter {
             if (!Util.hasRole(event.getMember(), "Project Manager")) {
                 return;
             }
+
+
+            if (message.equalsIgnoreCase("?transferroles")){
+
+                for (var member : event.getGuild().getMembersWithRoles(event.getGuild().getRoleById(934762373129072661L))){
+                    event.getGuild().removeRoleFromMember(member, event.getGuild().getRoleById(934762373129072661L)).queue();
+                    event.getGuild().addRoleToMember(member, event.getGuild().getRoleById(925558862478717058L)).queue();
+
+                }
+            }
+
             if (message.equalsIgnoreCase("?online")) {
                 new java.util.Timer().schedule(new TimerTask() {
                     @Override
                     public void run() {
-                       Util.setAmountOnline(event.getGuild());
+                        Util.setAmountOnline(event.getGuild());
                         System.out.println("Im setting up amount online now!");
                     }
                 }, 10 * 1000 * 60);
@@ -253,11 +311,11 @@ public class ScholarshipCommand extends ListenerAdapter {
             botCounter = 0;
             return;
         }
-
-        if (event.getMessage().getContentRaw().toLowerCase().startsWith("?commands")) {
-            event.getChannel().sendMessage(Util.createMessage("List of commands", "**Admin Commands** \n - ?copychannel [channel ID] \n -?createmessage [Title][Description] \n \n **Diamond Commands** \n - !mute [user ID] [reason] \n - !unmute [user ID] \n - ?mutelist \n - ?purge [amount of messages to delete] \n \n **Public Commands** \n - ?info \n - ?commands")).queue();
-        }
 */
+            if (event.getMessage().getContentRaw().toLowerCase().startsWith("?commands")) {
+                event.getChannel().sendMessage(Util.createMessage("List of commands", "**Mod Commands** \n - ?warn [User ID] [Reason] \n -?mute [User ID][Reason][Minutes] \n -?slowmode [Channel Id][seconds delay] \n -!about - Sends to Official links channel \n -!whitelist - Sends to Whitelist info and FAQ channel \n -!giveaway sends to Tweets and giveaways channel")).queue();
+            }
+
 
 
             if (message.toLowerCase().startsWith("?purge")) {
@@ -328,9 +386,3 @@ public class ScholarshipCommand extends ListenerAdapter {
     }
 
 }
-
-
-
-
-
-
