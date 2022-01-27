@@ -29,15 +29,24 @@ public class ScholarshipCommand extends ListenerAdapter {
                 var member = event.getGuild().getMemberByTag(messageEmbed.getTitle().replace("*", ""));
                 if (Integer.parseInt(messageEmbed.getDescription().split(" ")[3].replace("*", "")) >= 10) {
 
+                    var whiteListByLevel = event.getGuild().getMembersWithRoles(event.getGuild().getRoleById(925558862478717058L)).size();
+                    var whiteListByInvite = event.getGuild().getMembersWithRoles(event.getGuild().getRoleById(934762373129072661L)).size();
+                    var size = whiteListByInvite + whiteListByLevel;
 
+                    if (size >= 400){
+                        event.getGuild().getTextChannelById(925617795566272513L).sendMessage("All whitelist spots have been filled!!").queue();
+                        return;
+                    }
 
                     for (var role : member.getRoles()){
                         if (role.getIdLong() == 925558862478717058L || role.getIdLong() == 934762373129072661L){
                             return;
                         }
                     }
+
                     event.getGuild().addRoleToMember(member, event.getGuild().getRoleById(934762373129072661L)).queue();
                     event.getGuild().getTextChannelById(925608784380973136L).sendMessage("Congratulations " + member.getAsMention() + "! You have made it to the whitelist!").queue();
+
                     Util.setChannelName(event.getGuild());
                 } else {
                     event.getGuild().removeRoleFromMember(member, event.getGuild().getRoleById(934762373129072661L)).queue();
@@ -53,6 +62,14 @@ public class ScholarshipCommand extends ListenerAdapter {
                 if (Integer.parseInt(event.getMessage().getContentRaw().split(" ")[7].replace("!", "")) == 12) {
                     System.out.println(event.getMessage().getMentionedMembers().get(0).getIdLong());
 
+                    var whiteListByLevel = event.getGuild().getMembersWithRoles(event.getGuild().getRoleById(925558862478717058L)).size();
+                    var whiteListByInvite = event.getGuild().getMembersWithRoles(event.getGuild().getRoleById(934762373129072661L)).size();
+                    var size = whiteListByInvite + whiteListByLevel;
+
+                    if (size >= 400){
+                        event.getGuild().getTextChannelById(925617795566272513L).sendMessage("All whitelist spots have been filled!!").queue();
+                        return;
+                    }
 
                     var member = event.getGuild().getMemberById(event.getMessage().getMentionedMembers().get(0).getIdLong());
 
