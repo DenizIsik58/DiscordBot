@@ -18,12 +18,13 @@ public class ScholarshipCommand extends ListenerAdapter {
 
     private Map<Member, Integer> amountOfMutes = new HashMap<>();
     private List<Member> mutedMembers = new ArrayList<>();
+    private List<Member> waiters = new ArrayList<>();
 
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
         String message = event.getMessage().getContentRaw();
 
-        if (event.getMessage().getMember().getIdLong() == 720351927581278219L) {
+       /* if (event.getMessage().getMember().getIdLong() == 720351927581278219L) {
 
             for (MessageEmbed messageEmbed : event.getMessage().getEmbeds()) {
                 var member = event.getGuild().getMemberByTag(messageEmbed.getTitle().replace("*", ""));
@@ -44,23 +45,22 @@ public class ScholarshipCommand extends ListenerAdapter {
                         return;
                     }
 
-
-                    event.getGuild().addRoleToMember(member, event.getGuild().getRoleById(934762373129072661L)).queue();
+                    event.getGuild().addRoleToMember(member, event.getGuild().getRoleById(937477857591054397L)).queue();
                     event.getGuild().getTextChannelById(925608784380973136L).sendMessage("Congratulations " + member.getAsMention() + "! You have made it to the whitelist!").queue();
 
                     Util.setChannelName(event.getGuild(), 933518711262953542L);
                 } else {
-                    event.getGuild().removeRoleFromMember(member, event.getGuild().getRoleById(934762373129072661L)).queue();
+                    event.getGuild().removeRoleFromMember(member, event.getGuild().getRoleById(937477857591054397L)).queue();
                     Util.setChannelName(event.getGuild(), 933518711262953542L);
                 }
             }
-        }
+        }*/
 
         if (event.getMessage().getMember().getIdLong() == 159985870458322944L) {
 
             if (event.getMessage().getContentRaw().startsWith("GG")) {
                 System.out.println("GG: " + Integer.parseInt(event.getMessage().getContentRaw().split(" ")[7].replace("!", "")));
-                if (Integer.parseInt(event.getMessage().getContentRaw().split(" ")[7].replace("!", "")) == 12) {
+                if (Integer.parseInt(event.getMessage().getContentRaw().split(" ")[7].replace("!", "")) >= 12) {
                     System.out.println(event.getMessage().getMentionedMembers().get(0).getIdLong());
 
                     var whiteListByLevel = event.getGuild().getMembersWithRoles(event.getGuild().getRoleById(925558862478717058L)).size();
@@ -68,39 +68,33 @@ public class ScholarshipCommand extends ListenerAdapter {
                     var size = whiteListByInvite + whiteListByLevel;
                     var member = event.getGuild().getMemberById(event.getMessage().getMentionedMembers().get(0).getIdLong());
 
-                    if (size >= 400) {
-                        for (var role : member.getRoles()) {
-                            if (role.getIdLong() == 925558862478717058L || role.getIdLong() == 934762373129072661L) {
-                                return;
-                            }
+                    for (var role : member.getRoles()) {
+                        if (role.getIdLong() == 925558862478717058L || role.getIdLong() == 934762373129072661L) {
+                            return;
                         }
+                    }
 
+                    if (size >= 400){
+                        waiters.add(member);
                         event.getGuild().addRoleToMember(member, event.getGuild().getRoleById(937477857591054397L)).queue();
                         event.getGuild().getTextChannelById(937480056907923456L).sendMessage(member.getAsMention()).queue();
                         event.getGuild().getTextChannelById(937478889578561596L).sendMessage(member.getAsMention() + " welcome to the whitelist waiting channel!").queue();
                         Util.setChannelName(event.getGuild(), 937484977438871552L);
+                    }else {
+                        if (!waiters.isEmpty()){
+                            event.getGuild().removeRoleFromMember(waiters.get(0), event.getGuild().getRoleById(937477857591054397L)).queue();
+                            event.getGuild().addRoleToMember(waiters.get(0), event.getGuild().getRoleById(925558862478717058L)).queue();
 
-                        return;
-                    }
-
-
-                    event.getGuild().addRoleToMember(member, event.getGuild().getRoleById(934762373129072661L)).queue();
-                    event.getGuild().getTextChannelById(925608784380973136L).sendMessage("Congratulations " + member.getAsMention() + "! You have made it to the whitelist!").queue();
-
-                    Util.setChannelName(event.getGuild(), 933518711262953542L);
-
-
-                    // check if member has whitelist 2 - remove it and add regular whitelist
-                    for (var role : member.getRoles()) {
-                        if (role.getIdLong() == 934762373129072661L) {
-                            event.getGuild().removeRoleFromMember(member, event.getGuild().getRoleById(934762373129072661L)).queue();
+                            event.getGuild().getTextChannelById(925608784380973136L).sendMessage("Congratulations " + member.getAsMention() + "! You have made it to the whitelist!").queue();
+                            Util.setChannelName(event.getGuild(), 937484977438871552L);
+                            Util.setChannelName(event.getGuild(), 933518711262953542L);
+                            waiters.remove(0);
                         }
+
                     }
 
-                    System.out.println(member.getEffectiveName());
-                    event.getGuild().addRoleToMember(member, event.getGuild().getRoleById(925558862478717058L)).queue();
-                    event.getGuild().getTextChannelById(925608784380973136L).sendMessage("Congratulations " + member.getAsMention() + "! You have made it to the whitelist!").queue();
-                    Util.setChannelName(event.getGuild(), 933518711262953542L);
+
+
                 }
             }
         }
