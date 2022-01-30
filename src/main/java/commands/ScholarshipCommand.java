@@ -82,6 +82,9 @@ public class ScholarshipCommand extends ListenerAdapter {
                         Util.setChannelName(event.getGuild(), 937484977438871552L);
                     }else {
                         if (!waiters.isEmpty()){
+                            waiters.add(member);
+                            event.getGuild().addRoleToMember(member, event.getGuild().getRoleById(937477857591054397L)).queue();
+
                             event.getGuild().removeRoleFromMember(waiters.get(0), event.getGuild().getRoleById(937477857591054397L)).queue();
                             event.getGuild().addRoleToMember(waiters.get(0), event.getGuild().getRoleById(925558862478717058L)).queue();
 
