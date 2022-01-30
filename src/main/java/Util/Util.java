@@ -63,7 +63,7 @@ public class Util {
         if (channelID == 933518711262953542L){
             channel.getManager().setName("⚪・WL " + size + "/400").queue();
         }else if (channelID == 937484977438871552L){
-            channel.getManager().setName("Waiters " + waiters).queue();
+            channel.getManager().setName("⚪・Waiters: " + waiters).queue();
         }
     }
 
