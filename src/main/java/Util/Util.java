@@ -52,7 +52,7 @@ public class Util {
         return new MessageEmbed.ImageInfo(url, "", 100, 100);
     }
 
-    public static void setChannelName(Guild event, long channelID){
+    public static void setChannelName(Guild event, String channelID){
 
         var channel = event.getGuildChannelById(channelID);
         var whiteListByLevel = event.getMembersWithRoles(event.getRoleById(925558862478717058L)).size();
@@ -60,9 +60,9 @@ public class Util {
         var waiters = event.getMembersWithRoles(event.getRoleById(937477857591054397L)).size();
         var size = whiteListByInvite + whiteListByLevel;
 
-        if (channelID == 933518711262953542L){
+        if (channelID.equals("933518711262953542")){
             channel.getManager().setName("⚪・WL " + size + "/400").queue();
-        }else if (channelID == 937484977438871552L){
+        }else if (channelID.equals("937484977438871552")){
             channel.getManager().setName("⚪・Waiters: " + waiters).queue();
         }
     }

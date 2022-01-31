@@ -79,7 +79,7 @@ public class ScholarshipCommand extends ListenerAdapter {
                         event.getGuild().addRoleToMember(member, event.getGuild().getRoleById(937477857591054397L)).queue();
                         event.getGuild().getTextChannelById(937480056907923456L).sendMessage(member.getAsMention()).queue();
                         event.getGuild().getTextChannelById(937478889578561596L).sendMessage(member.getAsMention() + " welcome to the whitelist waiting channel!").queue();
-                        Util.setChannelName(event.getGuild(), 937484977438871552L);
+                        Util.setChannelName(event.getGuild(), "937484977438871552");
                     }else {
                         if (!waiters.isEmpty()){
                             waiters.add(member);
@@ -89,8 +89,8 @@ public class ScholarshipCommand extends ListenerAdapter {
                             event.getGuild().addRoleToMember(waiters.get(0), event.getGuild().getRoleById(925558862478717058L)).queue();
 
                             event.getGuild().getTextChannelById(925608784380973136L).sendMessage("Congratulations " + member.getAsMention() + "! You have made it to the whitelist!").queue();
-                            Util.setChannelName(event.getGuild(), 937484977438871552L);
-                            Util.setChannelName(event.getGuild(), 933518711262953542L);
+                            Util.setChannelName(event.getGuild(), "937484977438871552");
+                            Util.setChannelName(event.getGuild(), "933518711262953542");
                             waiters.remove(0);
                         }
 
