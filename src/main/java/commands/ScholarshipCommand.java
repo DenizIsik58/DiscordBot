@@ -73,16 +73,14 @@ public class ScholarshipCommand extends ListenerAdapter {
                             return;
                         }
                     }
-
+                    waiters.add(member);
                     if (size >= 400){
-                        waiters.add(member);
                         event.getGuild().addRoleToMember(member, event.getGuild().getRoleById(937477857591054397L)).queue();
                         event.getGuild().getTextChannelById(937480056907923456L).sendMessage(member.getAsMention()).queue();
                         event.getGuild().getTextChannelById(937478889578561596L).sendMessage(member.getAsMention() + " welcome to the whitelist waiting channel!").queue();
                         Util.setChannelName(event.getGuild(), "937484977438871552");
                     }else {
                         if (!waiters.isEmpty()){
-                            waiters.add(member);
                             event.getGuild().addRoleToMember(member, event.getGuild().getRoleById(937477857591054397L)).queue();
 
                             event.getGuild().removeRoleFromMember(waiters.get(0), event.getGuild().getRoleById(937477857591054397L)).queue();
