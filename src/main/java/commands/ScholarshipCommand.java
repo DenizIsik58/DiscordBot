@@ -245,6 +245,16 @@ public class ScholarshipCommand extends ListenerAdapter {
                             event.getChannel().sendMessage(member.getAsMention() + " " + member.getUser().getAsTag()).queue();
                         }
                     }
+                }else if (message.toLowerCase().startsWith("!ban")) {
+                    String reason = "";
+
+                    for (int i = 2; i < message.split(" ").length; i++) {
+                        reason += " " + message.split(" ")[i];
+                    }
+                    Member memb = event.getGuild().getMemberById(message.split(" ")[1]);
+                    assert memb != null;
+                    memb.ban(7, reason).queue();
+                    event.getChannel().sendMessage("**" + memb.getEffectiveName() + "** has been banned! \n \n**Reason:** " + reason).queue();
                 }
             }
 
@@ -392,16 +402,6 @@ public class ScholarshipCommand extends ListenerAdapter {
                 List<Message> messages = messageHistory.retrievePast(1).complete();
                 event.getChannel().sendMessage(Util.createMessage(null, messages.get(0).getContentRaw())).queue();
                 Util.deleteMessage(event.getChannel(), "?copychannel");
-            } else if (message.toLowerCase().startsWith("!ban")) {
-                String reason = "";
-
-                for (int i = 2; i < message.split(" ").length; i++) {
-                    reason += " " + message.split(" ")[i];
-                }
-                Member memb = event.getGuild().getMemberById(message.split(" ")[1]);
-                assert memb != null;
-                memb.ban(7, reason).queue();
-                event.getChannel().sendMessage("**" + memb.getEffectiveName() + "** has been banned! \n \n**Reason:** " + reason).queue();
             }
         }
     }
