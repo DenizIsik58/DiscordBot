@@ -69,11 +69,13 @@ public class ScholarshipCommand extends ListenerAdapter {
                     var member = event.getGuild().getMemberById(event.getMessage().getMentionedMembers().get(0).getIdLong());
 
                     for (var role : member.getRoles()) {
-                        if (role.getIdLong() == 925558862478717058L || role.getIdLong() == 934762373129072661L) {
+                        if (role.getIdLong() == 925558862478717058L || role.getIdLong() == 934762373129072661L || role.getIdLong() == 937477857591054397L) {
                             return;
                         }
                     }
                     waiters.add(member);
+
+
                     if (size >= 400){
                         event.getGuild().addRoleToMember(member, event.getGuild().getRoleById(937477857591054397L)).queue();
                         event.getGuild().getTextChannelById(937480056907923456L).sendMessage(member.getAsMention()).queue();
