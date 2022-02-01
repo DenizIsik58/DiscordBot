@@ -68,15 +68,24 @@ public class ScholarshipCommand extends ListenerAdapter {
                     var size = whiteListByInvite + whiteListByLevel;
                     var member = event.getGuild().getMemberById(event.getMessage().getMentionedMembers().get(0).getIdLong());
 
+
+
                     for (var role : member.getRoles()) {
-                        if (role.getIdLong() == 925558862478717058L || role.getIdLong() == 934762373129072661L || role.getIdLong() == 937477857591054397L) {
+                        if (role.getIdLong() == 925558862478717058L || role.getIdLong() == 934762373129072661L) {
                             return;
                         }
                     }
+
+
                     waiters.add(member);
 
-
                     if (size >= 400){
+                        for (var role : member.getRoles()) {
+                            if (role.getIdLong() == 937477857591054397L) {
+                                return;
+                            }
+                        }
+
                         event.getGuild().addRoleToMember(member, event.getGuild().getRoleById(937477857591054397L)).queue();
                         event.getGuild().getTextChannelById(937480056907923456L).sendMessage(member.getAsMention()).queue();
                         event.getGuild().getTextChannelById(937478889578561596L).sendMessage(member.getAsMention() + " welcome to the whitelist waiting channel!").queue();
