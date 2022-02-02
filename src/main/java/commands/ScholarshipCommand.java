@@ -86,7 +86,7 @@ public class ScholarshipCommand extends ListenerAdapter {
                         if (!waiters.isEmpty()) {
                             event.getGuild().addRoleToMember(member, event.getGuild().getRoleById(925558862478717058L)).queue();
 
-                            event.getGuild().getTextChannelById(925608784380973136L).sendMessage("Congratulations " + member.getAsMention() + "! You have made it to the whitelist!").queue();
+                            event.getGuild().getTextChannelById(925608784380973136L).sendMessage("Congratulations " + member.getAsMention() + "! You have made it to the whitelist! Please send your wallet address in a ticket -> " + event.getGuild().getTextChannelById(925395961998630962L).getAsMention()).queue();
                             Util.setChannelName(event.getGuild(), "937484977438871552");
                             Util.setChannelName(event.getGuild(), "933518711262953542");
                             waiters.remove(0);
