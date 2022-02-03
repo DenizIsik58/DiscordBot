@@ -65,6 +65,10 @@ public class ReactionRemoveCommand extends ListenerAdapter {
                     // Swedish
                     event.getGuild().removeRoleFromMember(event.getMember(), event.getGuild().getRoleById(933835926193463396L)).queue();
                     break;
+                case "U+1f1efU+1f1f5":
+                    // Japan
+                    event.getGuild().removeRoleFromMember(event.getMember(), event.getGuild().getRoleById(938774992198455337L)).queue();
+                    break;
 
 
             }
