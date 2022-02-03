@@ -69,9 +69,9 @@ public class ReactionAddCommand extends ListenerAdapter {
                     break;
                 case "U+1f1efU+1f1f5":
                     // Japan
-                    event.getGuild().removeRoleFromMember(event.getMember(), event.getGuild().getRoleById(938774992198455337L)).queue();
+                    event.getGuild().addRoleToMember(event.getMember(), event.getGuild().getRoleById(938774992198455337L)).queue();
                     break;
-                    
+
 
 
             }
