@@ -18,7 +18,6 @@ public class ScholarshipCommand extends ListenerAdapter {
 
     private Map<Member, Integer> amountOfMutes = new HashMap<>();
     private List<Member> mutedMembers = new ArrayList<>();
-    private List<Member> waiters = new ArrayList<>();
 
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
@@ -70,12 +69,10 @@ public class ScholarshipCommand extends ListenerAdapter {
 
 
                     for (var role : member.getRoles()) {
-                        if (role.getIdLong() == 925558862478717058L || role.getIdLong() == 934762373129072661L || role.getIdLong() == 937477857591054397L) {
+                        if (role.getIdLong() == 925558862478717058L || role.getIdLong() == 934762373129072661L) {
                             return;
                         }
                     }
-
-                    waiters.add(member);
 
                     if (size >= 400) {
                         event.getGuild().addRoleToMember(member, event.getGuild().getRoleById(937477857591054397L)).queue();
@@ -83,14 +80,11 @@ public class ScholarshipCommand extends ListenerAdapter {
                         event.getGuild().getTextChannelById(937478889578561596L).sendMessage(member.getAsMention() + " welcome to the whitelist waiting channel!").queue();
                         Util.setChannelName(event.getGuild(), "937484977438871552");
                     } else {
-                        if (!waiters.isEmpty()) {
                             event.getGuild().addRoleToMember(member, event.getGuild().getRoleById(925558862478717058L)).queue();
 
                             event.getGuild().getTextChannelById(925608784380973136L).sendMessage("Congratulations " + member.getAsMention() + "! You have made it to the whitelist! Please send your wallet address in a ticket -> " + event.getGuild().getTextChannelById(925395961998630962L).getAsMention()).queue();
                             Util.setChannelName(event.getGuild(), "937484977438871552");
                             Util.setChannelName(event.getGuild(), "933518711262953542");
-                            waiters.remove(0);
-                        }
                     }
                 }
             }
